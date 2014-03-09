@@ -7,7 +7,7 @@ public class Program {
         Matrix maxi = new Matrix();
 
         //test of program
-        mini.defineDiagonalMatrix(9, 2);
+        mini.defineDiagonalMatrix(4, 2);
 
         mini.printMatrix();
 
@@ -15,6 +15,10 @@ public class Program {
 
         maxi.printMatrix();
 
+        mini.myMatrices.values();
 
+        maxi.transposeMatrix();
+
+        maxi.printMatrix();
     }
 }

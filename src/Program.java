@@ -1,3 +1,4 @@
+//main program, where matrices are produced and worked with
 
 public class Program {
 
@@ -5,20 +6,21 @@ public class Program {
 
         Matrix mini = new Matrix();
         Matrix maxi = new Matrix();
+        Matrix freeDii = new Matrix();
 
         //test of program
         mini.defineDiagonalMatrix(4, 2);
-
         mini.printMatrix();
-
-        maxi.defineMatrixWithInInvididualRows(2);
-
-        maxi.printMatrix();
-
         mini.myMatrices.values();
 
-        maxi.transposeMatrix();
-
+        maxi.defineSquareMatrixWithInInvididualRows(3);
         maxi.printMatrix();
+
+        maxi.transposeMatrix();
+        maxi.printMatrix();
+
+        freeDii.defineFreeMatrixWithInInvididualRowsAndCollums(2, 3);
+        freeDii.printMatrix();
+
     }
 }

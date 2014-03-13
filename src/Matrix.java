@@ -1,93 +1,93 @@
 //Class to produce matrices and do arithmetic calculations
 
-import java.util.HashMap;
-import java.util.Scanner;
-
 public class Matrix {
 
-    private int[][] matrix;
-    private int[][] transposedMatrix;
-    public HashMap<String, Matrix> myMatrices = new HashMap<String, Matrix>();
+    private int size;
+    private int[][] values;
 
-    public Matrix() {
-        //empty constructor
+    //overload constructor to make values
+    public Matrix(int size, int[][] inputMultiArray) throws Exception {
+
+        if (size != inputMultiArray.length) {
+            throw new Exception("Size and multi.array do not match size");
+        }
+
+        this.size = size;
+        this.values = inputMultiArray;
     }
 
-    //method to produce n x n diagonal matrix with user based diagonal entry
-    public void defineDiagonalMatrix(int size, int diagonalValues) {
+    //overload constructor to make diagonal values
+    public Matrix(int size, int diagonalNr) {
 
-        this.matrix = new int[size][size];
-        this.myMatrices.put("myMatrices", this);
+        this.size = size;
+        this.values = new int[size][size];
 
-        for (int row = 0; row < size; row++) {
-            for (int collumn = 0; collumn < size; collumn++) {
-                this.matrix[row][collumn] = 0;
-            }
-        }
         for (int i = 0; i < size; i++) {
-            this.matrix[i][i] = diagonalValues;
+            this.values[i][i] = diagonalNr;
         }
     }
 
-    //method to produce n x n matrix with userbased entries
-    public void defineSquareMatrixWithInInvididualRows(int size) {
+    //method to transpose a values
+    public void transpose() {
 
-        this.matrix = new int[size][size];
-        this.myMatrices.put("myMatrices", this);
-        Scanner input = new Scanner(System.in);
+        //values til clipboard
+        int[][] transposedMatrix;
 
-        System.out.println("Enter all values in the matrix:");
+        transposedMatrix = new int[this.size][this.size];
 
-        for (int row = 0; row < size; row++) {
-            for (int collumn = 0; collumn < size; collumn++) {
-                this.matrix[row][collumn] = input.nextInt();
+        for (int row = 0; row < this.size; row++) {
+            for (int collumn = 0; collumn < this.size; collumn++) {
+                transposedMatrix[row][collumn] = this.values[collumn][row];
             }
         }
+        for (int row = 0; row < this.size; row++) {
+            for (int collumn = 0; collumn < this.size; collumn++) {
+                transposedMatrix[collumn][row] = this.values[row][collumn];
+            }
+        }
+        this.values = transposedMatrix;
     }
 
-    //method to produce n x m matrix
-    public void defineFreeMatrixWithInInvididualRowsAndCollums(int nrRows, int nrColls) {
+    @Override
+    public String toString() {
 
-        this.matrix = new int[nrRows][nrColls];
-        this.myMatrices.put("myMatrices", this);
-        Scanner input = new Scanner(System.in);
+        String repr = "";
 
-        System.out.println("Enter all values in the matrix:");
-
-        for (int row = 0; row < nrRows; row++) {
-            for (int collumn = 0; collumn < nrColls; collumn++) {
-                this.matrix[row][collumn] = input.nextInt();
+        for (int row = 0; row < this.size; row++) {
+            for (int collumn = 0; collumn < this.size; collumn++) {
+                repr += (this.values[row][collumn] + " ");
             }
+            repr += ("\n");
         }
+        return repr;
     }
 
-    //method to print matrix
-    public void printMatrix() {
-        System.out.println();
+    public static Matrix multiply(Matrix alpha, Matrix bravo) throws Exception {
 
-        for (int row = 0; row < this.matrix.length; row++) {
-            for (int collumn = 0; collumn < this.matrix[0].length; collumn++) {
-                System.out.print(this.matrix[row][collumn] + " ");
-            }
-            System.out.println();
+        if (alpha.size != bravo.size) {
+            throw new Exception("Matrices do not match size");
         }
+
+        //Konstruer matrix som er produktet AxB, med samme storrelse som A og B
+        Matrix matrixProduct;
+
+        //transpose values B, for letheds skyld
+        bravo.transpose();
+        int[][] AA = alpha.values;
+        int[][] BB = bravo.values;
+        int[][] CC = new int[alpha.size][alpha.size];
+
+        for (int x = 0; x < alpha.size; x++) {
+            for (int y = 0; y < alpha.size; y++) {
+                for (int z = 0; z < alpha.size; z++) {
+                    CC[x][z] += (AA[x][y] * BB[y][z]);
+                }
+            }
+        }
+        //transpose B tilbage til oprindelige storrelse
+        bravo.transpose();
+        matrixProduct = new Matrix(alpha.size, CC);
+        return matrixProduct;
     }
 
-    //method to transpose a matrix
-    public void transposeMatrix() {
-
-        this.transposedMatrix = new int[this.matrix.length][this.matrix.length];
-
-        for (int row = 0; row < this.matrix.length; row++) {
-            for (int collumn = 0; collumn < this.matrix.length; collumn++) {
-                this.transposedMatrix[row][collumn] = this.matrix[collumn][row];
-            }
-        }
-        for (int row = 0; row < this.matrix.length; row++) {
-            for (int collumn = 0; collumn < this.matrix.length; collumn++) {
-                this.transposedMatrix[collumn][row] = this.matrix[row][collumn];
-            }
-        }
-        this.matrix = this.transposedMatrix;
-    }
 }

@@ -1,26 +1,39 @@
 //main program, where matrices are produced and worked with
 
+import java.util.HashMap;
+
 public class Program {
 
-    public static void main(String[] args) {
 
-        Matrix mini = new Matrix();
-        Matrix maxi = new Matrix();
-        Matrix freeDii = new Matrix();
+    public static void main(String[] args) throws Exception {
+
+        //test multi.arrays
+        int[][] mini = new int[][]{{1, 1, 1}, {3, 3, 3}, {2, 2, 2}};
+        int[][] maxi = new int[][]{{2, 2, 2}, {3, 3, 3}, {2, 2, 2}};
+
+        //test matricer
+        Matrix miniX = new Matrix(3, mini);
+        Matrix maxiX = new Matrix(3, maxi);
+        Matrix dipiX = new Matrix(3, 7);
+
+        //HashMap til at holde matricer
+        HashMap<String, Matrix> myMatrices = new HashMap<String, Matrix>();
+
+        //add matricer til HashMap
+        myMatrices.put("myMatrices", miniX);
+        myMatrices.put("myMatrices", maxiX);
+        myMatrices.put("myMatrices", dipiX);
 
         //test of program
-        mini.defineDiagonalMatrix(4, 2);
-        mini.printMatrix();
-        mini.myMatrices.values();
+        System.out.println("minix> \n" + miniX);
+        System.out.println("maxix> \n" + maxiX);
 
-        maxi.defineSquareMatrixWithInInvididualRows(3);
-        maxi.printMatrix();
+        System.out.println("product of miniX and maxiX \n" + Matrix.multiply(miniX, maxiX));
 
-        maxi.transposeMatrix();
-        maxi.printMatrix();
+        System.out.println(maxiX);
 
-        freeDii.defineFreeMatrixWithInInvididualRowsAndCollums(2, 3);
-        freeDii.printMatrix();
+        miniX.transpose();
 
+        System.out.println("Transposed minix> \n" + miniX);
     }
 }

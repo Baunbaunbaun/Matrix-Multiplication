@@ -18,19 +18,21 @@ public class Program {
 
         String[] tokens;
 
-        do {
-            //program menu
-            System.out.print(
-                    "--------------------------- \n" +
-                            "MENU: \n" +
-                            "  - Define matrix \n" +
-                            "  - Transpose matrix \n" +
-                            "  - Multiply two matrices \n" +
-                            "  - Print matrix \n" +
-                            "  - Status / names of matrices \n" +
-                            "  - Exit \n" +
-                            "--------------------------- \n" +
-                            "DEFINE >>> ");
+        //program menu
+        String menu = ("--------------------------- \n" +
+                "MENU: \n" +
+                "  - Define matrix \n" +
+                "  - Transpose matrix \n" +
+                "  - Multiply two matrices \n" +
+                "  - Print matrix \n" +
+                "  - Status / names of matrices \n" +
+                "  - Exit \n" +
+                "--------------------------- \n");
+        System.out.println(menu);
+
+        //matrix program runs as long while is true
+        while (true) {
+            System.out.print("DEFINE >>> ");
 
             String line = Program.scanner.nextLine();
             tokens = line.split("\\s");
@@ -50,18 +52,20 @@ public class Program {
                     break;
                 case "status":
                     if (tokens.length == 1) {
-                        System.out.println(matrixMap);
+                        System.out.println("Matrices that are defined: " + matrixMap);
                     }
                     break;
+                case "menu":
+                    System.out.println(menu);
+                    break;
                 case "exit":
-                    return;
+                    System.exit(0);
                 default:
                     System.out.println("Unknown input");
                     break;
             }
-        } while (tokens[0].equals("exit"));
+        }
     }//end main method
-
 
     //method to define a matrix - diagonal or manual
     private static void cmdDefine(String[] tokens) {
@@ -141,12 +145,13 @@ public class Program {
                     System.out.println("that is not a number!");
                 }
             }
-            //create matrix object
+            //create diagonal matrix object
             Matrix m = new Matrix(size, diagonalValue);
 
             //add matrix to HashMap
             matrixMap.put(name, m);
 
+            //report success
             System.out.println("Matrix " + name + " is done :-)");
         }//end if - diagonal matrix
 
@@ -192,20 +197,21 @@ public class Program {
             //add matrix to HashMap
             matrixMap.put(name, n);
 
+            //report success
             System.out.println("Matrix " + name + " is done");
         }//end if - manual matrix
-        //todo Why does the program exit after defining manual matrix?
     }//end define-method
 
+    //print method
     private static void cmdPrint(String[] tokens) {
         if (tokens.length == 2) {
             if (matrixMap.containsKey(tokens[1])) {
                 System.out.println(matrixMap.get(tokens[1]));
             } else {
-                System.out.println("Matrix does not exit");
+                System.out.println("No matrix of that name");
             }
         } else {
-            System.out.println("No matrix of that name");
+            System.out.println("Incorrect number of arguments");
         }
     }//end print method
 
@@ -240,13 +246,14 @@ public class Program {
                 //add matrix to HashMap
                 matrixMap.put(name, matrixProduct);
             } else {
-                System.out.println("Matrices do not exit");
+                System.out.println("The called names does not respond to defined matrices");
             }
         } else {
             System.out.println("Incorrect number of arguments");
         }
     }//end multiply method
 
+    //class to create HashMap and to override toString
     private static class MatrixHashMap<K, V> extends HashMap<K, V> {
 
         @Override

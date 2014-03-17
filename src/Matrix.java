@@ -6,15 +6,15 @@ public class Matrix {
     private int[][] values;
 
     //overload constructor to make values
-    public Matrix(int size, int[][] inputMultiArray) throws Exception {
+    public Matrix(int size, int[][] inputMultiArray) throws IllegalArgumentException {
 
         if (size != inputMultiArray.length) {
-            throw new Exception("Size and multi.array do not match size");
+            throw new IllegalArgumentException("Size and multi.array do not match size");
         }
 
         this.size = size;
         this.values = inputMultiArray;
-    }
+    }//end constructor
 
     //overload constructor to make diagonal values
     public Matrix(int size, int diagonalNr) {
@@ -25,7 +25,7 @@ public class Matrix {
         for (int i = 0; i < size; i++) {
             this.values[i][i] = diagonalNr;
         }
-    }
+    }//end method
 
     //method to transpose a values
     public void transpose() {
@@ -59,13 +59,13 @@ public class Matrix {
             }
             repr += ("\n");
         }
-        return repr;
+        return repr.trim();
     }
 
-    public static Matrix multiply(Matrix alpha, Matrix bravo) throws Exception {
+    public static Matrix multiply(Matrix alpha, Matrix bravo) throws IllegalArgumentException {
 
         if (alpha.size != bravo.size) {
-            throw new Exception("Matrices do not match size");
+            throw new IllegalArgumentException("Matrices do not match size");
         }
 
         //Konstruer matrix som er produktet AxB, med samme storrelse som A og B
@@ -89,5 +89,4 @@ public class Matrix {
         matrixProduct = new Matrix(alpha.size, CC);
         return matrixProduct;
     }
-
 }

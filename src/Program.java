@@ -1,6 +1,7 @@
 //main program, where matrices are produced and worked with
 
 import java.util.HashMap;
+import java.util.InputMismatchException;
 import java.util.Map;
 import java.util.Scanner;
 
@@ -101,88 +102,84 @@ public class Program {
 
         //define diagonal matrix
         if (tokens[0].equals("diagonal")) {
-            System.out.println("Size?");
 
             //define size
-            while (true) {
-                System.out.print("DEFINE >>> ");
-                String line = Program.scanner.nextLine();
-                tokens = line.split("\\s");
+            boolean validSize = true;
+            while (validSize) {
+                System.out.print("SIZE? >>> ");
 
-                //only one input
-                if (tokens.length != 1) {
-                    System.out.println("wrong number of arguments");
-                    continue;
-                }
-
-                //catch non-int
                 try {
-                    size = Integer.parseInt(tokens[0]);
-                    break;
-                } catch (NumberFormatException e) {
-                    System.out.println("that was not a number!!!");
+                    size = Program.scanner.nextInt();
+
+                    boolean validValue = true;
+                    while (validValue) {
+                        System.out.print("DIAGONAL VALUE? >>> ");
+
+                        try {
+                            diagonalValue = Program.scanner.nextInt();
+
+                            //create diagonal matrix object
+                            Matrix m = new Matrix(size, diagonalValue);
+
+                            //add matrix to HashMap
+                            matrixMap.put(name, m);
+
+                            //report success
+                            System.out.println("Matrix " + name + " is done :-)");
+
+                            validValue = false;
+                        } catch (InputMismatchException ex) {
+                            System.out.println("Try again. (" +
+                                    "Incorrect input: an integer is required)");
+                            Program.scanner.nextLine(); // Discard input
+                        }
+                    }
+                    validSize = false;
+                } catch (InputMismatchException ex) {
+                    System.out.println("Try again. (" +
+                            "Incorrect input: an integer is required)");
+                    Program.scanner.nextLine(); // Discard input
                 }
-            }
-
-            //define diagonal value
-            System.out.println("Value in diagonal?");
-
-            while (true) {
-                System.out.print("DEFINE >>> ");
-
-                String line = Program.scanner.nextLine();
-                tokens = line.split("\\s");
-
-                if (tokens.length != 1) {
-                    System.out.println("wrong number of arguments");
-                    continue;
-                }
-                //catch non-int
-                try {
-                    diagonalValue = Integer.parseInt(tokens[0]);
-                    break;
-                } catch (NumberFormatException e) {
-                    System.out.println("that is not a number!");
-                }
-            }
-            //create diagonal matrix object
-            Matrix m = new Matrix(size, diagonalValue);
-
-            //add matrix to HashMap
-            matrixMap.put(name, m);
-
-            //report success
-            System.out.println("Matrix " + name + " is done :-)");
+            }//end ask-for-size-and-value
         }//end if - diagonal matrix
 
         //define manual matrix
         if (tokens[0].equals("manual")) {
 
-            System.out.println("Size?");
+            //define size and values
+            boolean getSize = true;
+            while (getSize) {
+                System.out.print("SIZE? >>> ");
 
-            //define size
-            //while (true) {
-            System.out.print("DEFINE >>> ");
-            size = Program.scanner.nextInt();
+                try {
+                    size = Program.scanner.nextInt();
 
-            int[][] manualMatrix = new int[size][size];
+                    int[][] manualMatrix = new int[size][size];
 
-            //define manual values, row by row
-            for (int row = 0; row < manualMatrix.length; row++) {
-                System.out.println("Values in row " + (row + 1) + "?");
-                for (int collumn = 0; collumn < manualMatrix.length; collumn++) {
-                    manualMatrix[row][collumn] = Program.scanner.nextInt();
-                }
-            }//end for loop
+                    //define manual values, row by row
+                    for (int row = 0; row < manualMatrix.length; row++) {
+                        System.out.println("Values in row " + (row + 1) + "?");
+                        for (int collumn = 0; collumn < manualMatrix.length; collumn++) {
+                            manualMatrix[row][collumn] = Program.scanner.nextInt();
+                        }
+                    }//end for loop
 
-            //create matrix object
-            Matrix n = new Matrix(size, manualMatrix);
+                    //create matrix object
+                    Matrix n = new Matrix(size, manualMatrix);
 
-            //add matrix to HashMap
-            matrixMap.put(name, n);
+                    //add matrix to HashMap
+                    matrixMap.put(name, n);
 
-            //report success
-            System.out.println("Matrix " + name + " is done");
+                    //report success
+                    System.out.println("Matrix " + name + " is done");
+
+                    getSize = false;
+                } catch (InputMismatchException ex) {
+                    System.out.println("Try again. (" +
+                            "Incorrect input: an integer is required)");
+                    Program.scanner.nextLine(); // Discard input
+                }//end catch
+            }//end ask-for-size-and-value
         }//end if - manual matrix
     }//end define method
 

@@ -18,7 +18,6 @@ public class Program {
 
         String[] tokens;
 
-
         //program menu
         String menu = ("--------------------------- \n" +
                 "MENU: \n" +
@@ -33,7 +32,7 @@ public class Program {
 
         //matrix program runs as long while is true
         while (true) {
-            System.out.print("DEFINE >>> ");
+            System.out.print("MAIN >>> ");
 
             String line = Program.scanner.nextLine();
             tokens = line.split("\\s");
@@ -53,7 +52,7 @@ public class Program {
                     break;
                 case "status":
                     if (tokens.length == 1) {
-                        System.out.println("Matrices that are defined: " + matrixMap);
+                        System.out.println("Matrices that are defined: \n" + matrixMap);
                     }
                     break;
                 case "menu":
@@ -162,25 +161,9 @@ public class Program {
             System.out.println("Size?");
 
             //define size
-            while (true) {
-                System.out.print("DEFINE >>> ");
-                String line = Program.scanner.nextLine();
-                tokens = line.split("\\s");
-
-                //only one input
-                if (tokens.length != 1) {
-                    System.out.println("Incorrect number of arguments");
-                    continue;
-                }
-
-                //catch non-int
-                try {
-                    size = Integer.parseInt(tokens[0]);
-                    break;
-                } catch (NumberFormatException e) {
-                    System.out.println("that was not an integer!");
-                }
-            }//end while
+            //while (true) {
+            System.out.print("DEFINE >>> ");
+            size = Program.scanner.nextInt();
 
             int[][] manualMatrix = new int[size][size];
 
@@ -201,7 +184,7 @@ public class Program {
             //report success
             System.out.println("Matrix " + name + " is done");
         }//end if - manual matrix
-    }//end define-method
+    }//end define method
 
     //print method
     private static void cmdPrint(String[] tokens) {

@@ -27,6 +27,7 @@ public class Program {
                 "  - Multiply two matrices \n" +
                 "  - Print matrix \n" +
                 "  - Status / names of matrices \n" +
+                "  - Delete matrix \n" +
                 "  - Exit \n" +
                 "--------------------------- \n");
         System.out.println(menu);
@@ -59,9 +60,13 @@ public class Program {
                 case "menu":
                     System.out.println(menu);
                     break;
+                case "delete":
+                    matrixMap.remove(tokens[1]);
+                    break;
                 case "exit":
                     System.exit(0);
                 default:
+                    //
                     System.out.println("Unknown input");
                     break;
             }
@@ -125,7 +130,7 @@ public class Program {
                             matrixMap.put(name, m);
 
                             //report success
-                            System.out.println("Matrix " + name + " is done :-)");
+                            System.out.println("Matrix " + name + " is done");
 
                             validValue = false;
                         } catch (InputMismatchException ex) {
@@ -139,7 +144,8 @@ public class Program {
                     System.out.println("Try again. (" +
                             "Incorrect input: an integer is required)");
                     Program.scanner.nextLine(); // Discard input
-                }
+                }//end catch
+                Program.scanner.nextLine(); // Discard input
             }//end ask-for-size-and-value
         }//end if - diagonal matrix
 
@@ -179,15 +185,20 @@ public class Program {
                             "Incorrect input: an integer is required)");
                     Program.scanner.nextLine(); // Discard input
                 }//end catch
+                Program.scanner.nextLine(); // Discard input
             }//end ask-for-size-and-value
         }//end if - manual matrix
     }//end define method
 
     //print method
     private static void cmdPrint(String[] tokens) {
+
         if (tokens.length == 2) {
             if (matrixMap.containsKey(tokens[1])) {
                 System.out.println(matrixMap.get(tokens[1]));
+            }
+            if (tokens[1].equals("all")) {
+                System.out.println(matrixMap.values());
             } else {
                 System.out.println("No matrix of that name");
             }
@@ -219,13 +230,18 @@ public class Program {
 
         if (tokens.length == 3) {
             if (matrixMap.containsKey(tokens[1]) && matrixMap.containsKey(tokens[2])) {
-                matrixProduct = Matrix.multiply(matrixMap.get(tokens[1]), matrixMap.get(tokens[2]));
-                System.out.println(
-                        "Multiply done \n" +
-                                "The result is matrix " + name + ": \n" +
-                                matrixProduct);
-                //add matrix to HashMap
-                matrixMap.put(name, matrixProduct);
+                if (matrixMap.get(tokens[1]).getSize() == matrixMap.get(tokens[2]).getSize()) {
+                    matrixProduct = Matrix.multiply(matrixMap.get(tokens[1]), matrixMap.get(tokens[2]));
+                    System.out.println(
+                            "Multiply done \n" +
+                                    "The result is matrix " + name + ": \n" +
+                                    matrixProduct);
+                    //add matrix to HashMap
+                    matrixMap.put(name, matrixProduct);
+                } else {
+                    System.out.println("The two matrices are not of the same size!");
+                }
+
             } else {
                 System.out.println("The called names does not respond to defined matrices");
             }

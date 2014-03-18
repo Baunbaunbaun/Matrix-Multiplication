@@ -2,6 +2,10 @@
 
 public class Matrix {
 
+    public int getSize() {
+        return size;
+    }
+
     private int size;
     private int[][] values;
 
